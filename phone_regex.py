@@ -1,4 +1,5 @@
 import re
+from dataclasses import dataclass
 from typing import List
 
 PHONE_PATTERN = re.compile(
@@ -22,3 +23,19 @@ def normalize_phone(phone: str) -> str:
         raise ValueError(f"Invalid prefix: {digits}")
 
     return "+" + digits
+
+
+@dataclass(frozen=True)
+class PhoneHit:
+    raw: str
+    normalized: str
+
+
+def extract_hits(text: str) -> List[PhoneHit]:
+    hits: List[PhoneHit] = []
+    for raw in find_phone_numbers(text):
+        try:
+            hits.append(PhoneHit(raw=raw, normalized=normalize_phone(raw)))
+        except ValueError:
+            pass
+    return hits
