@@ -1,16 +1,15 @@
-from fetcher import load_text_from_file
+from fetcher import load_text_from_url
 from phone_regex import extract_hits
 
 
 def main() -> None:
-    demo_path = "demo_input.txt"
-    with open(demo_path, "w", encoding="utf-8") as f:
-        f.write("Звоните: +7 903 111-22-33 или 8(495)7778899")
-
-    text = load_text_from_file(demo_path)
-    hits = extract_hits(text)
-    print("Text:", text)
-    print("Hits:", hits)
+    url = "https://example.com"
+    try:
+        text = load_text_from_url(url)
+        print(f"Loaded {len(text)} chars from {url}")
+        print("Hits:", extract_hits(text))
+    except Exception as e:
+        print("URL loading failed (ok for offline env):", repr(e))
 
 
 if __name__ == "__main__":
