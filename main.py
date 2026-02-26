@@ -1,15 +1,16 @@
+from fetcher import load_text_from_file
 from phone_regex import extract_hits
 
 
 def main() -> None:
-    text = """
-    Контакты: +7 999 123-45-67, 8 (912) 000-11-22, +7(495)1234567.
-    Мусор: +7 999 123-45-6, abc+79991234567def
-    """
+    demo_path = "demo_input.txt"
+    with open(demo_path, "w", encoding="utf-8") as f:
+        f.write("Звоните: +7 903 111-22-33 или 8(495)7778899")
+
+    text = load_text_from_file(demo_path)
     hits = extract_hits(text)
-    print(f"Hits: {len(hits)}")
-    for i, h in enumerate(hits, 1):
-        print(f"{i}. raw={h.raw} -> normalized={h.normalized}")
+    print("Text:", text)
+    print("Hits:", hits)
 
 
 if __name__ == "__main__":
